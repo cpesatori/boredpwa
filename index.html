@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Boredhumans</title>
+<link rel="stylesheet" type="text/css" href="styles/inline.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ffffff" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+	<header class="header">
+		<h1 class="header__title">Boredhumans</h1>
+	</header>
+
+	<main>
+	<div id="mainContent">
+		<input type="file" accept="video/*" capture="camera" id="recorder">
+		<p class="endTime"></p>
+		<br>
+		<video id="player" controls style="width: 100%; height: 35%">
+			<p>Your browser does not support the video tag. You are poor.</p>
+		</video>
+
+
+		<script type="text/javascript">
+			$(document).ready(
+					function() {
+
+						var recorder = $('#recorder');
+						var player = $('#player');
+						var video;
+
+						$(recorder).on('change', function(e) {
+							console.log("test");
+							var file = e.target.files[0];
+							// Do something with the video file.
+							$(player).attr("src", URL.createObjectURL(file));
+
+						});
+
+						$(player).on('loadedmetadata', function(obj) {
+							video = obj.target;
+							checkLoad();
+						});
+
+						$(player).on('error', function() {
+							alert("Error! Something went wrong... ask jesus.");
+						});
+
+						function checkLoad() {
+							if (typeof video !== "undefined"
+									&& video.readyState >= 2) {
+								getInfo();
+							} else {
+								setTimeout(checkLoad, 100);
+							}
+						}
+
+						function getInfo() {
+
+							if (video.readyState >= 2) {
+								console.log("readyState: "
+										+ video.seekable.start(0) + " - "
+										+ video.seekable.end(0));
+								$(".endTime").text(video.seekable.end(0));
+								video.currentTime = 5;
+							}
+						}
+
+					});
+		</script>
+
+<!-- 		<div id="customController"> -->
+
+<!-- 			<button type="button" id="play-pause" class="play">Play</button> -->
+
+
+<!-- 		</div> -->
+
+	</div>
+	</main>
+
+
+	<script src="scripts/app.js"></script>
+
+</body>
+</html>
