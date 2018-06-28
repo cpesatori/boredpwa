@@ -3,8 +3,8 @@
   "short_name": "Boredhumans",
   "theme_color": "#000000",
   "background_color": "#cccccc",
-  "display": "fullscreen",
-  "start_url": "/boredhumans-web-ui/progressive/index.html",
+  "display": "standalone",
+  "start_url": "/boredpwa/index.html",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
