@@ -3,7 +3,7 @@
   "short_name": "Boredhumans",
   "theme_color": "#000000",
   "background_color": "#cccccc",
-  "display": "standalone",
+  "display": "fullscreen",
   "start_url": "/boredpwa/index.html",
   "icons": [
     {
