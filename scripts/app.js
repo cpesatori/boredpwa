@@ -1,36 +1,28 @@
+let newWorker;  
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () =>
-    navigator.serviceWorker.register('sw.js')
-      .then(registration => console.log('Service Worker registered'))
-      .catch(err => 'SW registration failed'));
-}
-
-
-
-//window.isUpdateAvailable = new Promise(function(resolve, reject) {
-//	// lazy way of disabling service workers while developing
-//	if ('serviceWorker' in navigator && ['localhost', '127'].indexOf(location.hostname) === -1) {
-//		// register service worker file
-//		navigator.serviceWorker.register('sw.js')
-//			.then(reg => {
-//				reg.onupdatefound = () => {
-//					const installingWorker = reg.installing;
-//					installingWorker.onstatechange = () => {
-//						switch (installingWorker.state) {
-//							case 'installed':
-//								if (navigator.serviceWorker.controller) {
-//									// new update available
-//									resolve(true);
-//								} else {
-//									// no update available
-//									resolve(false);
-//								}
-//								break;
-//						}
-//					};
-//				};
-//			})
-//			.catch(err => console.error('[SW ERROR]', err));
-//	}
-//});
+    navigator.serviceWorker.register('/service-worker.js').then(reg => {
+      reg.addEventListener('updatefound', () => {
+        // A wild service worker has appeared in reg.installing!
+        newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          // Has network.state changed?
+          switch (newWorker.state) {
+            case 'installed':
+              if (navigator.serviceWorker.controller) {
+                // new update available
+                showUpdateBar();
+              }
+              // No update available
+              break;
+          }
+        });
+      });
+    });
+    let refreshing;
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (refreshing) return;
+      window.location.reload();
+      refreshing = true;
+    });
+  }
