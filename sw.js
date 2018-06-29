@@ -1,12 +1,12 @@
 const version = "1.0";
 var cacheName = 'boredhumans-cache';
 
-/*self.addEventListener('install', event => {
+self.addEventListener('install', event => {
 	  event.waitUntil(
 	    caches.open(cacheName)
-	      .then(cache => cache.addAll([]))
+	      .then(cache => cache.addAll(['/boredpwa/images/trollface.png']))
 	  );
-	});*/
+	});
 
 	self.addEventListener('message', function (event) {
 	  if (event.data.action === 'skipWaiting') {
